@@ -1,7 +1,7 @@
 module.exports = class Application {
     #express = require('express');
     #app = this.#express();
-    constructor(PORT, DB_URL) {
+    constructor(PORT, DB_URL) {   // چینش داخل کانسترکتور بسیار مهم است
         this.configDatabase(DB_URL);
         this.configApplication();
         this.createServer(PORT);
@@ -53,5 +53,7 @@ module.exports = class Application {
                 message: "this is a new express application"
             })
         })
+        const { AllRoutes } = require('./router/router')
+        this.#app.use(AllRoutes)    
     }
 }
