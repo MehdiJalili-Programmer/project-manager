@@ -9,3 +9,12 @@ Content-Type: application/json
     "password" : "19941372mj",
     "confirm_password" : "19941372mj"
 }
+
+###login request
+Post http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username" : "MehdiJalili",
+    "password" : "19941372mj"
+}
