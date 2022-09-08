@@ -1,0 +1,9 @@
+###create project
+Post http://localhost:3000/user/profile
+Authorization: Bearer {{$dotenv token}}
+Content-Type: application/json
+{
+    first_name : '',
+    last_name : '',
+    skills : ["programming", "node.js", "express.js"]
+}
