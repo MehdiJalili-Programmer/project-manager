@@ -1,9 +1,9 @@
 ###create project
-Post http://localhost:3000/user/profile
+Post http://localhost:3000/project/create
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
+
 {
-    first_name : '',
-    last_name : '',
-    skills : ["programming", "node.js", "express.js"]
+    title: "kir",
+    text: "rooye mize ke mitoni bokoni to koonet martike kharkose"
 }
