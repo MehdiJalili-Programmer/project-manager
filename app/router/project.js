@@ -9,10 +9,10 @@ const fileUpload = require('express-fileupload');
 const { mongoIDValidator } = require('../http/validations/public');
 
 router.post("/create", fileUpload(), checkLogin, uploadFile, createProjectValidator(), expressValidatorMapper, ProjectController.createProject)
-router.post("/list", checkLogin, ProjectController.getAllProjects);
-router.post("/:id", checkLogin, mongoIDValidator() , expressValidatorMapper, ProjectController.getProjectById);
-router.post("/remove/:id", checkLogin, mongoIDValidator(), expressValidatorMapper, ProjectController.removeProject);
-router.post("/edit/:id", checkLogin, mongoIDValidator(), expressValidatorMapper, ProjectController.updateProject);
+router.get("/list", checkLogin, ProjectController.getAllProjects);
+router.get("/:id", checkLogin, mongoIDValidator() , expressValidatorMapper, ProjectController.getProjectById);
+router.delete("/remove/:id", checkLogin, mongoIDValidator(), expressValidatorMapper, ProjectController.removeProject);
+router.put("/edit/:id", checkLogin, mongoIDValidator(), expressValidatorMapper, ProjectController.updateProject);
 
 module.exports = {
     projectRoutes : router

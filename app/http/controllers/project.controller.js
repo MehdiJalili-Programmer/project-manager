@@ -1,6 +1,10 @@
+const autoBind = require('auto-bind');
 const { projectModel } = require('../../models/project')
 
 class ProjectController {
+    constructor() {
+        autoBind(this);
+    }
     async createProject(req, res, next) {
         try {
             const { title, text, image, tags } = req.body;

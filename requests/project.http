@@ -3,7 +3,3 @@ Post http://localhost:3000/project/create
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
 
-{
-    title: "kir",
-    text: "rooye mize ke mitoni bokoni to koonet martike kharkose"
-}
