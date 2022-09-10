@@ -24,11 +24,15 @@ function createUploadPath() {
     const uploadPath = path.join(__dirname, '..', '..', 'public', 'upload', year, month, day)
     fs.mkdirSync(uploadPath, { recursive: true });
     console.log(uploadPath);
-    return path.join('public', 'upload', year, month, day);
+    return path.join('public', 'upload', year, month, day); // مسیر قبل از پابلیک را چون در قسمت استاتیک فایل سرور دات جی اس ذخیره کرده ایم در اینجا دیگر ریترن نمیکنیم
 };
+function createLinkForFiles(fileAddress, req) {
+    return req.protocol + "://" + req.get("host") + "/" + (fileAddress.replace(/[\\\\]/gim, "/"));
+}
 module.exports = {
     hashString,
     tokenGenerator,
     verifyJwtToken,
-    createUploadPath
+    createUploadPath,
+    createLinkForFiles
 }

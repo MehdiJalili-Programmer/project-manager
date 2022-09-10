@@ -1,5 +1,7 @@
 const autoBind = require('auto-bind');
+
 const { projectModel } = require('../../models/project')
+const { createLinkForFiles } = require('../../modules/functions');
 
 class ProjectController {
     constructor() {
@@ -25,6 +27,9 @@ class ProjectController {
         try {
             const owner = req.user._id;
             const projects = await projectModel.find({ owner }); 
+            for (const project of projects) {
+                project.image = createLinkForFiles(project.image, req);
+            }
             return res.status(200).json({
                 status: 200,
                 success: true,
@@ -46,6 +51,7 @@ class ProjectController {
             const owner = req.user._id;
             const projectID = req.params.id;
             const project = await this.findProject(projectID, owner);
+            project.image = createLinkForFiles(project.image, req);
             return res.status(200).json({
                 status: 200,
                 success: true,
@@ -71,13 +77,54 @@ class ProjectController {
             next(error)
         }
     };
+    async updateProject(req, res, next) {
+        try {
+            const owner = req.user._id;
+            const projectID = req.params.id;
+            await this.findProject(projectID, owner);
+            const data = { ...req.body };
+            Object.entries(data).forEach(([key, value]) => {
+                if (!['title', 'text', 'tags'].includes(key)) delete data[key];
+                if (['', ' ', 0, null, undefined, NaN].includes(value)) delete data[key];
+                if (key == "tags" && (data["tags"].constructor === Array)) {
+                    data["tags"] = data["tags"].filter(val => {
+                        if (!["", " ", 0, null, undefined, NaN].includes(val)) return val;
+                    });
+                    if (data["tags"].length == 0) delete data["tags"];
+                }
+            });
+            const updateResult = await projectModel.updateOne({ _id: projectID }, { $set: data });
+            if (updateResult.modifiedCount == 0) throw { status: 400, message: "بروزرسانی انجام نشد" };
+            return res.status(200).json({
+                status: 200,
+                success: true,
+                message: "بروزرسانی با موفقیت انجام شد"
+            });
+        } catch (error) {
+            next(error)
+        }
+    };
+    async updateProjectImage(req, res, next) {
+        try {
+            const { image } = req.body;
+            const owner = req.user._id;
+            const projectID = req.params.id;
+            await this.findProject(projectID, owner);
+            const updateResult = await projectModel.updateOne({ _id: projectID }, { $set: { image } });
+            if (updateResult.modifiedCount == 0) throw { status: 400, message: "بروزرسانی انجام نشد" };
+            return res.status(200).json({
+                status: 200,
+                success: true,
+                message: "بروزرسانی با موفقیت انجام شد"
+            });
+        } catch (error) {
+            next(error)
+        }
+    };
     getAllProjectsOfTeam() {
 
     };
     getProjectOfUser() {
-
-    };
-    updateProject() {
 
     };
 };

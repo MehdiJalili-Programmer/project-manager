@@ -1,5 +1,5 @@
-###create project
-Post http://localhost:3000/project/create
+###edit project
+Get http://localhost:3000/project/6319a90c862fb588f2a8e595
 Authorization: Bearer {{$dotenv token}}
 Content-Type: application/json
 

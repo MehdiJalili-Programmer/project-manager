@@ -1,10 +1,11 @@
 const { userModel } = require("../../models/user");
+const { createLinkForFiles } = require("../../modules/functions");
 
 class UserController {
     getProfile(req, res, next) {
         try {
             const user = req.user;
-            user.profile_image = req.protocol + "://" + req.get("host") + "/" + (user.profile_image).replace(/[\\\\]/gim, "/");
+            user.profile_image = createLinkForFiles(user.profile_image, req);
             return res.status(200).json({
                 status: 200,
                 success: true,
